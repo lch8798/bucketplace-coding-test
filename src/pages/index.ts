@@ -1,3 +1,3 @@
-import Pid from '@pages/Pid';
+import Feed from '@pages/Feed';
 
-export { Pid };
+export { Feed };

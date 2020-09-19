@@ -1,5 +1,5 @@
-import * as pid from '@api/pid';
+import * as feed from '~/api/feed';
 
 export default {
-    pid,
+    feed,
 };

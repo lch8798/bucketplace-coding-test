@@ -1,10 +1,10 @@
 import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-import pid from '@modules/pid/index';
+import feed from '@modules/feed/index';
 
 const rootReducer = combineReducers({
-    pid,
+    feed,
 });
 
 // Make Redux Store

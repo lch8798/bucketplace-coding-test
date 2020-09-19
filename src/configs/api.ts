@@ -1,3 +1,3 @@
 export default {
-    apiBaseURL: 'https://s3.ap-northeast-2.amazonaws.com',
+    apiBaseURL: 'https://bucketplace-coding-test.s3.amazonaws.com',
 };

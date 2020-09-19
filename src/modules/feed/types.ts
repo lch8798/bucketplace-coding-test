@@ -5,7 +5,7 @@ export type Card = {
     profile_image_url: string;
 };
 
-export type PidState = {
+export type FeedState = {
     page: number;
     cards: Card[];
 };

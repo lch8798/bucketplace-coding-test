@@ -1,10 +1,10 @@
 import React from 'react';
-import { Pid } from '@pages/index';
+import { Feed } from '@pages/index';
 
 export default function App(): JSX.Element {
     return (
         <div>
-            <Pid />
+            <Feed />
         </div>
     );
 }
