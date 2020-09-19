@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Card as CardType } from '@modules/feed/index';
 
 type PropsType = {
     profileImage: string;
@@ -11,14 +10,14 @@ export default function UserProfile(props: PropsType): JSX.Element {
     const { profileImage, nickname } = props;
 
     return (
-        <UserProfileWrap>
+        <Wrap>
             <ProfileImage src={profileImage} alt={'User Profile Image'} />
             <Nickname>{nickname}</Nickname>
-        </UserProfileWrap>
+        </Wrap>
     );
 }
 
-const UserProfileWrap = styled.div`
+const Wrap = styled.div`
     display: flex;
     align-items: center;
     transition-duration: 0.2s;

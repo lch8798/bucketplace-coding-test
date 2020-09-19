@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Card as CardType } from '@modules/feed/index';
-import { UserProfile } from '@components/index';
+import { UserProfile, Scrap } from '@components/index';
 
 type PropsType = {
     card: CardType;
@@ -10,8 +10,10 @@ type PropsType = {
 export default function Card(props: PropsType): JSX.Element {
     const { card } = props;
 
+    const [on, setOn] = useState(false);
+
     return (
-        <CardWrap key={card.id}>
+        <Wrap key={card.id}>
             <UserProfile
                 profileImage={card.profile_image_url}
                 nickname={card.nickname}
@@ -23,11 +25,18 @@ export default function Card(props: PropsType): JSX.Element {
                     alt={'Feed Image'}
                 />
             </CardImageWrap>
-        </CardWrap>
+
+            <ActionsWrap>
+                <ActionButtonWrap>
+                    <Scrap on={on} onClick={() => setOn(!on)} />
+                </ActionButtonWrap>
+            </ActionsWrap>
+        </Wrap>
     );
 }
 
-const CardWrap = styled.div`
+const Wrap = styled.div`
+    position: relative;
     margin: 15px 0;
 `;
 
@@ -51,4 +60,14 @@ const CardImageWrap = styled.div`
 const CardImage = styled.img`
     width: 100%;
     transition-duration: 0.2s;
+`;
+
+const ActionsWrap = styled.div`
+    position: absolute;
+    bottom: 0;
+    right: 0;
+`;
+
+const ActionButtonWrap = styled.div`
+    margin: 10px;
 `;

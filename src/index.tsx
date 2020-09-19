@@ -8,6 +8,7 @@ import * as serviceWorker from '~/serviceWorker';
 // reset style
 import '@assets/stylesheets/index.css';
 import '@assets/stylesheets/reset.min.css';
+import '@assets/stylesheets/customNormalize.css';
 
 ReactDOM.render(
     <React.StrictMode>
