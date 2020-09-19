@@ -18,6 +18,7 @@ export default function Card(props: PropsType): JSX.Element {
                 profileImage={card.profile_image_url}
                 nickname={card.nickname}
             />
+
             <CardImageWrap>
                 <CardImage
                     className={'cardImage'}
@@ -37,7 +38,7 @@ export default function Card(props: PropsType): JSX.Element {
 
 const Wrap = styled.div`
     position: relative;
-    margin: 15px 0;
+    margin-bottom: 30px;
 `;
 
 const CardImageWrap = styled.div`
