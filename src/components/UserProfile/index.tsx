@@ -38,5 +38,6 @@ const Nickname = styled.p`
     line-height: 19px;
     text-indent: 10px;
     font-size: 15px;
+    font-weight: bold;
     color: rgba(0, 0, 0, 0.74);
 `;

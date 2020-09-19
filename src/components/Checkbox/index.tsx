@@ -59,5 +59,6 @@ const CheckboxIcon = styled.img`
 const Label = styled.p`
     text-indent: 6px;
     font-size: 15px;
+    font-weight: 600;
     color: #424242;
 `;
