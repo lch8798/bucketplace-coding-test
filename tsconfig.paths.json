@@ -4,6 +4,12 @@
         "paths": {
             "~/*": ["src/*"],
             "@components/*": ["src/components/*"],
+            "@pages/*": ["src/pages/*"],
+            "@modules/*": ["src/modules/*"],
+            "@hooks/*": ["src/hooks/*"],
+            "@utils/*": ["src/utils/*"],
+            "@api/*": ["src/api/*"],
+            "@configs/*": ["src/configs/*"],
             "@stylesheets/*": ["src/stylesheets/*"]
         }
     }

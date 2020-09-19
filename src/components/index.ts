@@ -1,3 +1,3 @@
-import TestComponent from '@components/TestComponent';
+import Card from '@components/Card';
 
-export { TestComponent };
+export { Card };
