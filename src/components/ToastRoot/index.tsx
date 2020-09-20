@@ -9,7 +9,9 @@ export default function ToastRoot(): JSX.Element {
     return (
         <Wrap>
             {toast.state.toasts.length > 0 &&
-                toast.state.toasts.map((toast) => <Toast toast={toast} />)}
+                toast.state.toasts.map((toast) => (
+                    <Toast key={toast.id} toast={toast} />
+                ))}
         </Wrap>
     );
 }
