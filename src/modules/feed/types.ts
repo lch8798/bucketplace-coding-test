@@ -9,4 +9,5 @@ export type Card = {
 export type FeedState = {
     page: number;
     cards: Card[];
+    cachedCards: Card[];
 };

@@ -1,11 +1,17 @@
 import { AnyAction } from 'redux';
 import { FeedState } from './types';
-import { SET_CARDS, SET_CARDS_SUCCESS, SET_CARDS_FAILURE } from './actions';
+import {
+    SET_CARDS,
+    SET_CARDS_SUCCESS,
+    SET_CARDS_FAILURE,
+    SET_CACHED_CARDS,
+} from './actions';
 
 // default state
 const feedState: FeedState = {
     page: 0,
     cards: [],
+    cachedCards: [],
 };
 
 // reducers
@@ -27,6 +33,12 @@ export default function feed(
                 ...state,
                 page: action.page,
             };
+        case SET_CACHED_CARDS:
+            return {
+                ...state,
+                cachedCards: action.cachedCards,
+            };
+
         default:
             return state;
     }

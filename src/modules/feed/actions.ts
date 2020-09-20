@@ -7,6 +7,7 @@ import utils from '@utils/index';
 export const SET_CARDS = 'feed/SET_CARDS';
 export const SET_CARDS_SUCCESS = 'feed/SET_CARDS_SUCCESS';
 export const SET_CARDS_FAILURE = 'feed/SET_CARDS_FAILURE';
+export const SET_CACHED_CARDS = 'feed/SET_CACHED_CARDS';
 
 /**
  * next page 카드 데이터 가져오기, localStorage 캐싱된 값 대조
@@ -18,7 +19,7 @@ export const fetchCards = () => async (dispatch: any, getState: GetState) => {
     try {
         dispatch({ type: SET_CARDS });
 
-        // select from api server
+        // fetch from api server
         const responseCards = await api.feed.getCards(newPage);
 
         // localStorage 에 저장되었던 카드 데이터라면 저장된 값 사용
@@ -42,6 +43,16 @@ export const fetchCards = () => async (dispatch: any, getState: GetState) => {
     } catch (error) {
         dispatch({ type: SET_CARDS_FAILURE, page: newPage });
     }
+};
+
+/**
+ * localStorage 에 캐싱된 카드 데이터 가져오기
+ */
+export const fetchCachedCards = () => (dispatch: any, getState: GetState) => {
+    // fetch from localStorage
+    const cachedCards = utils.localStorage.getAllArray();
+
+    dispatch({ type: SET_CACHED_CARDS, cachedCards });
 };
 
 /**
