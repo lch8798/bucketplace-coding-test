@@ -4,6 +4,7 @@ import {
     SET_CARDS,
     SET_CARDS_SUCCESS,
     SET_CARDS_FAILURE,
+    SET_CARD_SCRAP,
     SET_LAST_PAGE,
     SET_CACHED_CARDS,
 } from './actions';
@@ -41,6 +42,12 @@ export default function feed(
                 ...state,
                 loading: false,
                 page: action.page,
+            };
+        case SET_CARD_SCRAP:
+            return {
+                ...state,
+                cards: action.cards,
+                cachedCards: action.cachedCards,
             };
         case SET_LAST_PAGE:
             return {

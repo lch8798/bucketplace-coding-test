@@ -7,6 +7,7 @@ import utils from '@utils/index';
 export const SET_CARDS = 'feed/SET_CARDS';
 export const SET_CARDS_SUCCESS = 'feed/SET_CARDS_SUCCESS';
 export const SET_CARDS_FAILURE = 'feed/SET_CARDS_FAILURE';
+export const SET_CARD_SCRAP = 'feed/SET_CARD_SCRAP';
 export const SET_LAST_PAGE = 'feed/SET_LAST_PAGE';
 export const SET_CACHED_CARDS = 'feed/SET_CACHED_CARDS';
 
@@ -74,9 +75,7 @@ export const fetchCards = () => async (dispatch: any, getState: GetState) => {
  */
 export const fetchCachedCards = () => (dispatch: any, getState: GetState) => {
     // fetch from localStorage
-    const cachedCards = Object.entries(utils.localStorage.getAllObject())
-        .filter(([key]) => key.indexOf(getKey()) != -1)
-        .map(([key, value]) => value);
+    const cachedCards = getAllOnlyCard();
 
     dispatch({ type: SET_CACHED_CARDS, cachedCards });
 };
@@ -90,30 +89,44 @@ export const scrapCard = (cardID: number, isScrap: boolean) => (
     dispatch: any,
     getState: GetState
 ) => {
-    const { page, cards } = getState().feed;
+    const { cards, cachedCards } = getState().feed;
 
-    try {
-        const newCards = cards.map((card) => {
-            // 요청한 card 일 때
-            if (card.id == cardID) {
-                const newCard: Card = {
-                    ...card,
-                    isScrap,
-                };
+    const newCards = cards.map((card) => {
+        // 요청한 card 일 때
+        if (card.id == cardID) {
+            const newCard: Card = {
+                ...card,
+                isScrap,
+            };
 
-                // localStorage 캐싱
-                utils.localStorage.set(getKey(card.id), newCard);
+            // localStorage 캐싱
+            utils.localStorage.set(getKey(card.id), newCard);
 
-                return newCard;
-            }
+            return newCard;
+        }
 
-            return card;
-        });
+        return card;
+    });
 
-        dispatch({ type: SET_CARDS_SUCCESS, page, cards: newCards });
-    } catch (e) {
-        dispatch({ type: SET_CARDS_FAILURE, page });
-    }
+    const newCachedCards = cachedCards.map((cachedCard) => {
+        // 요청한 card 일 때
+        if (cachedCard.id == cardID) {
+            const newCard: Card = {
+                ...cachedCard,
+                isScrap,
+            };
+
+            return newCard;
+        }
+
+        return cachedCard;
+    });
+
+    dispatch({
+        type: SET_CARD_SCRAP,
+        cards: newCards,
+        cachedCards: newCachedCards,
+    });
 };
 
 /**
@@ -123,4 +136,13 @@ export const scrapCard = (cardID: number, isScrap: boolean) => (
 function getKey(key: string | number = '') {
     const LOCAL_STORAGE_KEY = 'CARD';
     return `${LOCAL_STORAGE_KEY}:${key}`;
+}
+
+/**
+ * 로컬 스토리지에 저장된 모든 카드 데이터 반환
+ */
+function getAllOnlyCard(): Card[] {
+    return Object.entries(utils.localStorage.getAllObject())
+        .filter(([key]) => key.indexOf(getKey()) != -1)
+        .map(([key, value]) => value);
 }
