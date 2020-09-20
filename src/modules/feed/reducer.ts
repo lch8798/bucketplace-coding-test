@@ -45,6 +45,7 @@ export default function feed(
         case SET_LAST_PAGE:
             return {
                 ...state,
+                loading: false,
                 lastPage: action.lastPage,
             };
         case SET_CACHED_CARDS:

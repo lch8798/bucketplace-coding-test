@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import configs from '@configs/index';
-import { Checkbox, Card } from '@components/index';
+import { Checkbox, Card, Loading } from '@components/index';
 import useFeed from '@hooks/useFeed';
 
 export default function Feed(): JSX.Element {
@@ -58,17 +58,22 @@ export default function Feed(): JSX.Element {
 
             {/* 카드 리스트, 모든 카드 랜더링 */}
             {!onlyScrap && (
-                <CardList>
-                    {feed.state.cards.map((card) => (
-                        <Card
-                            key={card.id}
-                            card={card}
-                            scrapCard={() =>
-                                feed.scrapCard(card.id, !card.isScrap)
-                            }
-                        />
-                    ))}
-                </CardList>
+                <>
+                    <CardList>
+                        {feed.state.cards.map((card) => (
+                            <Card
+                                key={card.id}
+                                card={card}
+                                scrapCard={() =>
+                                    feed.scrapCard(card.id, !card.isScrap)
+                                }
+                            />
+                        ))}
+                    </CardList>
+
+                    {/* 로딩 */}
+                    {feed.state.loading && <Loading />}
+                </>
             )}
 
             {/* 카드 리스트, 스크랩된 카드만 랜더링 */}
