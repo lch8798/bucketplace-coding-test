@@ -2,9 +2,11 @@ import { combineReducers, createStore, compose, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import feed from '@modules/feed/index';
+import toast from '@modules/toast/index';
 
 const rootReducer = combineReducers({
     feed,
+    toast,
 });
 
 // Make Redux Store

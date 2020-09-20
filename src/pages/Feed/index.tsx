@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import configs from '@configs/index';
 import { Checkbox, Card, Loading } from '@components/index';
 import useFeed from '@hooks/useFeed';
+import useToast from '@hooks/useToast';
 
 export default function Feed(): JSX.Element {
     const feed = useFeed();
+    const toast = useToast();
     const [onlyScrap, setOnlyScrap] = useState(false);
 
     useEffect(() => {
@@ -45,6 +47,15 @@ export default function Feed(): JSX.Element {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [onlyScrap]);
 
+    function handleCardScrap(cardID: number, isScrap: boolean) {
+        feed.scrapCard(cardID, isScrap);
+
+        toast.addToast(
+            isScrap ? '스크랩했습니다' : '스크랩북에서 삭제했습니다.',
+            3000
+        );
+    }
+
     return (
         <Wrap>
             {/* 필터링 옵션 컨트롤러 */}
@@ -65,7 +76,7 @@ export default function Feed(): JSX.Element {
                                 key={card.id}
                                 card={card}
                                 scrapCard={() =>
-                                    feed.scrapCard(card.id, !card.isScrap)
+                                    handleCardScrap(card.id, !card.isScrap)
                                 }
                             />
                         ))}
@@ -86,7 +97,7 @@ export default function Feed(): JSX.Element {
                                 key={card.id}
                                 card={card}
                                 scrapCard={() =>
-                                    feed.scrapCard(card.id, !card.isScrap)
+                                    handleCardScrap(card.id, !card.isScrap)
                                 }
                             />
                         ))}
