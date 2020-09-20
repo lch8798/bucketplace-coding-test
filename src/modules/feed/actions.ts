@@ -7,40 +7,64 @@ import utils from '@utils/index';
 export const SET_CARDS = 'feed/SET_CARDS';
 export const SET_CARDS_SUCCESS = 'feed/SET_CARDS_SUCCESS';
 export const SET_CARDS_FAILURE = 'feed/SET_CARDS_FAILURE';
+export const SET_LAST_PAGE = 'feed/SET_LAST_PAGE';
 export const SET_CACHED_CARDS = 'feed/SET_CACHED_CARDS';
 
 /**
  * next page 카드 데이터 가져오기, localStorage 캐싱된 값 대조
  */
 export const fetchCards = () => async (dispatch: any, getState: GetState) => {
-    const { page, cards } = getState().feed;
+    const { loading, page, lastPage, cards } = getState().feed;
     const newPage = page + 1;
 
+    // 현재 로딩 중이라면 취소
+    if (loading) return;
+
+    // 마지막 페이지 정보가 있다면 취소
+    if (Boolean(lastPage) && lastPage < newPage) return;
+
     try {
-        dispatch({ type: SET_CARDS });
+        dispatch({ type: SET_CARDS, page: newPage });
 
         // fetch from api server
         const responseCards = await api.feed.getCards(newPage);
+        const isLastPage = responseCards.length === 0;
 
-        // localStorage 에 저장되었던 카드 데이터라면 저장된 값 사용
-        const newCards = cards.concat(
-            responseCards.map((responseCard) => {
-                const cachedData: Card | null = utils.localStorage.get(
-                    getKey(responseCard.id)
-                );
+        // 마지막 페이지라면
+        if (isLastPage) {
+            dispatch({
+                type: SET_LAST_PAGE,
+                lastPage: page,
+            });
+        }
 
-                return {
-                    id: responseCard.id,
-                    imageURL: responseCard.image_url,
-                    nickname: responseCard.nickname,
-                    profileImageURL: responseCard.profile_image_url,
-                    isScrap: cachedData === null ? false : cachedData.isScrap,
-                };
-            })
-        );
+        // 성공적으로 데이터를 불러왔다면
+        if (!isLastPage) {
+            // localStorage 에 저장되었던 카드 데이터라면 저장된 값 사용
+            const newCards = cards.concat(
+                responseCards.map((responseCard) => {
+                    const cachedData: Card | null = utils.localStorage.get(
+                        getKey(responseCard.id)
+                    );
 
-        dispatch({ type: SET_CARDS_SUCCESS, page: newPage, cards: newCards });
+                    return {
+                        id: responseCard.id,
+                        imageURL: responseCard.image_url,
+                        nickname: responseCard.nickname,
+                        profileImageURL: responseCard.profile_image_url,
+                        isScrap:
+                            cachedData === null ? false : cachedData.isScrap,
+                    };
+                })
+            );
+            dispatch({
+                type: SET_CARDS_SUCCESS,
+                page: newPage,
+                cards: newCards,
+            });
+        }
     } catch (error) {
+        // 에러가 나더라도 다음 페이지 요청을 할 수 있게 newPage
         dispatch({ type: SET_CARDS_FAILURE, page: newPage });
     }
 };

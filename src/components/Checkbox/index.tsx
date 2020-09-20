@@ -38,7 +38,7 @@ const CheckboxButton = styled.button`
     align-items: center;
 `;
 
-const CheckboxIconWrap = styled.button`
+const CheckboxIconWrap = styled.div`
     position: relative;
     width: 24px;
     height: 24px;

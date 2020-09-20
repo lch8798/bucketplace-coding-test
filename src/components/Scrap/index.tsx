@@ -32,6 +32,10 @@ const ScrapButton = styled.button`
     width: 32px;
     height: 32px;
     vertical-align: middle;
+
+    &:hover {
+        opacity: 0.8;
+    }
 `;
 
 const ScrapIcon = styled.img`

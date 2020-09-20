@@ -48,6 +48,7 @@ const CardImageWrap = styled.div`
     width: 268px;
     height: 268px;
     border-radius: 10px;
+    background-color: #eee;
     overflow: hidden;
 
     &:hover {

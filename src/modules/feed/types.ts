@@ -7,7 +7,9 @@ export type Card = {
 };
 
 export type FeedState = {
+    loading: boolean;
     page: number;
+    lastPage: number;
     cards: Card[];
     cachedCards: Card[];
 };

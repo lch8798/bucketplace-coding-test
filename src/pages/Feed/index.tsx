@@ -9,12 +9,40 @@ export default function Feed(): JSX.Element {
     const [onlyScrap, setOnlyScrap] = useState(false);
 
     useEffect(() => {
+        // 첫페이지 fetch
         feed.fetchCards();
     }, []);
 
     useEffect(() => {
-        // 스크랩 필터 활성화 시 reload
-        if (onlyScrap) feed.fetchCachedCards();
+        function handleScroll() {
+            const PADDING_BOTTOM = 300;
+
+            const { innerHeight } = window;
+            const { scrollHeight } = document.body;
+
+            const scrollTop = document.documentElement.scrollTop;
+
+            if (scrollHeight - innerHeight - scrollTop < PADDING_BOTTOM)
+                feed.fetchCards();
+        }
+
+        // 스크랩 여부 필터 활성화 시
+        if (onlyScrap) {
+            // localStorage reload
+            feed.fetchCachedCards();
+
+            // remove scroll event handler
+            window.removeEventListener('scroll', handleScroll);
+        }
+
+        // 스크랩 여부 필터 비활성화 시
+        if (!onlyScrap) {
+            // init scroll event handler
+            window.addEventListener('scroll', handleScroll);
+        }
+
+        // remove scroll event handler
+        return () => window.removeEventListener('scroll', handleScroll);
     }, [onlyScrap]);
 
     return (
@@ -33,6 +61,7 @@ export default function Feed(): JSX.Element {
                 <CardList>
                     {feed.state.cards.map((card) => (
                         <Card
+                            key={card.id}
                             card={card}
                             scrapCard={() =>
                                 feed.scrapCard(card.id, !card.isScrap)
@@ -49,6 +78,7 @@ export default function Feed(): JSX.Element {
                         .filter((card) => card.isScrap)
                         .map((card) => (
                             <Card
+                                key={card.id}
                                 card={card}
                                 scrapCard={() =>
                                     feed.scrapCard(card.id, !card.isScrap)
@@ -57,9 +87,6 @@ export default function Feed(): JSX.Element {
                         ))}
                 </CardList>
             )}
-
-            {/* 임시 카드 리스트 Fetch 버튼 */}
-            <button onClick={() => feed.fetchCards()}>Fetch</button>
         </Wrap>
     );
 }
