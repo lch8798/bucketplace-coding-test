@@ -2,7 +2,7 @@
 
 버킷플레이스 과제 프로젝트입니다.
 
-## [Live](http://leechan.kr)
+### [Live](http://leechan.kr)
 
 # 시연
 
