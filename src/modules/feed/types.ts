@@ -1,8 +1,9 @@
 export type Card = {
     id: number;
-    image_url: string;
+    imageURL: string;
     nickname: string;
-    profile_image_url: string;
+    profileImageURL: string;
+    isScrap: boolean;
 };
 
 export type FeedState = {

@@ -14,7 +14,7 @@ export default function Feed(): JSX.Element {
 
     return (
         <Wrap>
-            {/* 필터링 옵션 */}
+            {/* 필터링 옵션 컨트롤러 */}
             <FilterOptionWrap>
                 <Checkbox
                     on={on}
@@ -26,7 +26,10 @@ export default function Feed(): JSX.Element {
             {/* 카드 리스트 */}
             <CardList>
                 {feed.state.cards.map((card) => (
-                    <Card card={card} />
+                    <Card
+                        card={card}
+                        scrapCard={() => feed.scrapCard(card.id, !card.isScrap)}
+                    />
                 ))}
             </CardList>
 

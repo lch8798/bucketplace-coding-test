@@ -1,35 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Card as CardType } from '@modules/feed/index';
 import { UserProfile, Scrap } from '@components/index';
 
 type PropsType = {
     card: CardType;
+    scrapCard: Function;
 };
 
 export default function Card(props: PropsType): JSX.Element {
-    const { card } = props;
-
-    const [on, setOn] = useState(false);
+    const { card, scrapCard } = props;
 
     return (
         <Wrap key={card.id}>
             <UserProfile
-                profileImage={card.profile_image_url}
+                profileImage={card.profileImageURL}
                 nickname={card.nickname}
             />
 
             <CardImageWrap>
                 <CardImage
                     className={'cardImage'}
-                    src={card.image_url}
+                    src={card.imageURL}
                     alt={'Feed Image'}
                 />
             </CardImageWrap>
 
             <ActionsWrap>
                 <ActionButtonWrap>
-                    <Scrap on={on} onClick={() => setOn(!on)} />
+                    <Scrap on={card.isScrap} onClick={scrapCard} />
                 </ActionButtonWrap>
             </ActionsWrap>
         </Wrap>
