@@ -37,7 +37,7 @@ export default function Card(props: PropsType): JSX.Element {
 
 const Wrap = styled.div`
     position: relative;
-    margin-bottom: 30px;
+    margin: 0 10px 30px 10px;
 `;
 
 const CardImageWrap = styled.div`
@@ -50,6 +50,7 @@ const CardImageWrap = styled.div`
     border-radius: 10px;
     background-color: #eee;
     overflow: hidden;
+    cursor: pointer;
 
     &:hover {
         > .cardImage {

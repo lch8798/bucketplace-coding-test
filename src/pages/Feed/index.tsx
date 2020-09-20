@@ -120,6 +120,7 @@ const FilterOptionWrap = styled.div`
 
 const CardList = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
+    margin: 0 -10px;
 `;

@@ -1,6 +1,6 @@
 export default {
     pc: {
-        width: 1140,
+        width: 1136,
     },
     mobile: {
         width: 768,
