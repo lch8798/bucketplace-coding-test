@@ -26,7 +26,7 @@ export const fetchCards = () => async (dispatch: any, getState: GetState) => {
         const newCards = cards.concat(
             responseCards.map((responseCard) => {
                 const cachedData: Card | null = utils.localStorage.get(
-                    responseCard.id
+                    getKey(responseCard.id)
                 );
 
                 return {
@@ -50,7 +50,9 @@ export const fetchCards = () => async (dispatch: any, getState: GetState) => {
  */
 export const fetchCachedCards = () => (dispatch: any, getState: GetState) => {
     // fetch from localStorage
-    const cachedCards = utils.localStorage.getAllArray();
+    const cachedCards = Object.entries(utils.localStorage.getAllObject())
+        .filter(([key]) => key.indexOf(getKey()) != -1)
+        .map(([key, value]) => value);
 
     dispatch({ type: SET_CACHED_CARDS, cachedCards });
 };
@@ -76,7 +78,7 @@ export const scrapCard = (cardID: number, isScrap: boolean) => (
                 };
 
                 // localStorage 캐싱
-                utils.localStorage.set(card.id, newCard);
+                utils.localStorage.set(getKey(card.id), newCard);
 
                 return newCard;
             }
@@ -89,3 +91,12 @@ export const scrapCard = (cardID: number, isScrap: boolean) => (
         dispatch({ type: SET_CARDS_FAILURE, page });
     }
 };
+
+/**
+ * 로컬 스토리지에서 사용할 키 생성
+ * @param key
+ */
+function getKey(key: string | number = '') {
+    const LOCAL_STORAGE_KEY = 'CARD';
+    return `${LOCAL_STORAGE_KEY}:${key}`;
+}
